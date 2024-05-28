@@ -1,0 +1,103 @@
+<div class="flex flex-col justify-between items-center mt-10">
+    <div class="flex justify-between items-center p-4 w-96 border-2 border-r-8 border-green-700">
+        <p>Enter the date</p>
+        <input type="date" [(ngModel)]="date">
+        <!-- <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="search(date)">Search</button> -->
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            (click)="search(date)">Search</button>
+    </div>
+</div>
+<p *ngIf="newDate">Showing results for: {{newDate}}</p>
+<!-- <p *ngIf="reports.length">Showing results for: {{reports}}</p> -->
+
+Total reports : {{reports.length}}
+<div class="flex flex-row flex-wrap bg-green-50">
+    <div *ngFor="let report of reports" class="border-2 rounded-lg border-green-700 m-5 p-3 cursor-pointer"
+        (click)=openReport(report)>
+        Booking Id: {{report.bookingID}} <br>
+        Name: {{report.fullname}} <br>
+        <!-- Age: {{report.age}} <br> -->
+        <!-- Gender: {{report.gender}} <br> -->
+        <!-- Height: {{report.height}} <br> -->
+        <!-- Weight: {{report.weight}} <br> -->
+        <!-- SYS: {{report.bpSys}} <br> -->
+        <!-- DYS: {{report.bpDys}} <br> -->
+        <!-- Phone: {{report.phone}} <br> -->
+        sampleId: {{report.sampleId}} <br>
+        <!-- <div *ngFor="let parameter of report.tests_selected">
+            {{parameter.testlog_testname}}
+            {{parameter.testlog_calculated}}
+            {{parameter.testlog_unit}}
+        </div> -->
+    </div>
+</div>
+
+<div *ngIf="selectedReport"
+    class="absolute inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center h-[100%] overflow-auto">
+    <div class="absolute bg-white p-5 rounded w-[210mm] h-[295mm] flex flex-col border-2 border-t-orange-300  border-b-orange-300 mt-[35%] mb-[15%]"
+        id=pdfContent>
+        <h2 class="text-xl font-bold mb-4 text-center">Report Details</h2>
+        <div class="flex justify-between mt-4">
+            <img src="assets/SafeExpress.JPG" alt="no image found" width="250px" height="150px">
+            <img src="assets/Mobilab.png" alt="no image found" width="250px" height="150px">
+        </div>
+
+        <div class="m-5">
+            <!-- <div class="flex bg-purple-400 justify-between items-center border border-black"> -->
+                <div class="flex justify-between items-center border border-black">
+                <div class="w-[35.31rem] border-r border-black p-2"><strong>Name:</strong> {{selectedReport.fullname}}</div>
+                <div class="p-2"><strong>Date: </strong>27-05-2024</div>
+            </div>
+            <!-- <div class="flex bg-orange-400 justify-between border-l border-black"> -->
+                <div class="flex justify-between border-l border-black">
+                <div class="w-full">
+                    <!-- <div class="flex bg-blue-400 w-full"> -->
+                        <div class="flex w-full">
+                        <div class="w-64 border-r border-black p-2"><strong>Mobile No:</strong>
+                            {{selectedReport.phone}}</div>
+                        <div class="w-36 border-r border-black p-2"><strong>Height:</strong> {{selectedReport.height}}</div>
+                        <div class="w-36 p-2"><strong>Weight:</strong> {{selectedReport.weight}}</div>
+                    </div>
+                    <!-- <div class="flex bg-yellow-400 border-t border-b border-black"> -->
+                        <div class="flex border-t border-b border-black">
+                        <div class="border-r border-black p-2 w-64 text-start"><strong>Age:</strong> {{selectedReport.age}}</div>
+                        <div class="p-2"><strong>Gender: </strong>{{selectedReport.gender}}</div>
+                    </div>
+                </div>
+                <!-- <div class="bg-teal-600 border-l border-r border-b border-black p-2 w-1/4 text-center"><strong>Sample ID:</strong> {{selectedReport.sampleId}}</div> -->
+                <div class="border-l border-r border-b border-black p-2 w-1/4 text-center"><strong>Sample ID:</strong> {{selectedReport.sampleId}}</div>
+            </div>
+        </div>
+
+        <div class="flex justify-around items-center p-2 bg-[#0DA955] text-white text-center mx-5">
+            <div>Test</div>
+            <div>Result</div>
+            <div>Diagnosis</div>
+            <div>Normal Range</div>
+            <div>Unit</div>
+        </div>
+        <!-- <div class="bg-purple-500 h-[60%]"> -->
+        <div class="h-[60%]">
+            <div class="flex justify-around items-center p-2" *ngFor="let parameter of selectedReport.tests_selected">
+                <div class="-ml-4">{{parameter.testlog_testname}}</div>
+                <div class="-ml-11">{{parameter.testlog_calculated}}</div>
+                <div class="-ml-9">{{parameter.testlog_diagnosis}}</div>
+                <div>{{parameter.testlog_normal_range}}</div>
+                <div>{{parameter.testlog_unit}}</div>
+            </div>
+        </div>
+        <div class="bg-[#0DA955] text-white text-sm p-3 mx-5 mt-2 flex justify-between items-center">
+            <ul class="list-disc list-inside">
+                <li>Patients appearing for the tests without fasting should anticipate variations in their test results.
+                </li>
+                <li>The above report is to be evaluated clinically by a licensed healthcare professional for further
+                    assessment.</li>
+                <li>All the test results and patient information will be kept confidential.</li>
+            </ul>
+        </div>
+    </div>
+    <button class="ml-[80%] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        (click)="closeReport()">Close</button>
+    <button class=" bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        (click)="downloadPdf()">Download PDF</button>
+</div>
